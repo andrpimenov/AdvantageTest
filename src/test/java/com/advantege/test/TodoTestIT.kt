@@ -46,7 +46,7 @@ class TempIT {
     }
 
     @Test
-    fun `Create with the same id`() {
+    fun `Impossible to create todo with the same id`() {
         val todo = Todo(IdGenerator.getId(), "Some todo", true)
         todoClient.createTodo(todo)
         val todo2 = Todo(todo.id, "Another todo with the same id", true)
@@ -54,25 +54,25 @@ class TempIT {
     }
 
     @Test
-    fun `Create without text`() {
+    fun `Impossible to create todo without text`() {
         val todo = Todo(IdGenerator.getId(), null, true)
         todoClient.createTodo(todo, 400)
     }
 
     @Test
-    fun `Create without completed`() {
+    fun `Impossible to create todo without completed flag`() {
         val todo = Todo(IdGenerator.getId(), "some text",null)
         todoClient.createTodo(todo, 400)
     }
 
     @Test
-    fun `Create without id`() {
+    fun `Impossible to create todo without id`() {
         val todo = Todo(null, "some text",true)
         todoClient.createTodo(todo, 400)
     }
 
     @Test
-    fun `Check just limit param`() {
+    fun `Get method - check limit param`() {
         val todos = listOf(
             Todo(IdGenerator.getId(), "some text", true),
             Todo(IdGenerator.getId(), "some text", true),
@@ -84,7 +84,7 @@ class TempIT {
     }
 
     @Test
-    fun `Check just offset param`() {
+    fun `Get method - check offset param`() {
         deleteAllTodos()
 
         val todos = listOf(
@@ -98,7 +98,7 @@ class TempIT {
     }
 
     @Test
-    fun `Check offset and limit params`() {
+    fun `Get method - check both offest and limit params`() {
         deleteAllTodos()
 
         val todos = listOf(
@@ -120,7 +120,7 @@ class TempIT {
     }
 
     @Test
-    fun `Update todo - text`() {
+    fun `Update todo - text param`() {
         val todo = Todo(IdGenerator.getId(), "some text",true)
         todoClient.createTodo(todo)
 
@@ -133,7 +133,7 @@ class TempIT {
     }
 
     @Test
-    fun `Update todo - completed`() {
+    fun `Update todo - completed param`() {
         val todo = Todo(IdGenerator.getId(), "some text",true)
         todoClient.createTodo(todo)
 
@@ -146,7 +146,7 @@ class TempIT {
     }
 
     @Test
-    fun `Update todo - id`() {
+    fun `Update todo - id param`() {
         val todo = Todo(IdGenerator.getId(), "some text",true)
         todoClient.createTodo(todo)
 
@@ -171,7 +171,7 @@ class TempIT {
     }
 
     @Test
-    fun `Update todo - unknown id`() {
+    fun `Update todo - unknown id - error code is returned`() {
         val todo = Todo(IdGenerator.getId(), "some text",true)
         todoClient.createTodo(todo)
 
@@ -190,18 +190,18 @@ class TempIT {
     }
 
     @Test
-    fun `Delete todo - unknown id`() {
+    fun `Delete todo - unknown id - error code is returned`() {
         todoClient.deleteTodo(config.user, config.password, IdGenerator.getId(), 404)
     }
 
     @Test
-    fun `Delete todo - without credentials`() {
+    fun `Delete todo - without credentials - no permissions`() {
         val todo = Todo(IdGenerator.getId(), "some text",true)
         todoClient.deleteTodo(null, null, todo.id!!, 401)
     }
 
     @Test
-    fun `Delete todo - wrong credentials`() {
+    fun `Delete todo - wrong credentials - no permissions`() {
         val todo = Todo(IdGenerator.getId(), "some text",true)
         todoClient.deleteTodo("user", "pwd", todo.id!!, 401)
     }
